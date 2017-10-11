@@ -9,12 +9,18 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname, "build"),
-		publicPath: "/assets/",
+		publicPath: "/build/",
 		filename: "bundle.js"
 	},
 	module: {
-		loaders: [
-			{test: /\.js$/, loaders: ["babel"]}
+		rules: [
+			{
+				test: /\.jsx?$/,
+				loader: "babel-loader",
+				options: {
+					presets: ["env", "react"]
+				},
+			}
 		]
 	}
 };

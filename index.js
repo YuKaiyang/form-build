@@ -13,3 +13,5 @@ const myRender = (schema, uiSchema, formData, container) => {
 		/>
 	), document.getElementById(container))
 }
+
+window.myRender = myRender
