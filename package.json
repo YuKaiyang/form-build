@@ -1,6 +1,6 @@
 {
   "private": true,
-  "tag": "v0.0.1",
+  "version": "0.1.0",
   "dependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
