@@ -74,7 +74,65 @@
                     "minimum": 30000,
                     "maximum": 1500000,
                     "multipleOf": 1000
-                }
+                },
+                "listOfStrings": {
+                    "type": "array",
+                    "title": "爱好",
+                    "items": {
+                        "type": "string",
+                        "default": "默认爱好"
+                    }
+                },
+                "multipleChoicesList": {
+                    "type": "array",
+                    "title": "了解本站方式",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "报纸",
+                            "电视",
+                            "互联网",
+                            "朋友推荐"
+                        ]
+                    },
+                    "uniqueItems": true
+                },
+                "fixedItemsList": {
+                    "type": "array",
+                    "title": "附加信息",
+                    "items": [
+                        {
+                            "title": "对本网站评价",
+                            "type": "string",
+                            "default": "非常好"
+                        },
+                        {
+                            "title": "是否公开信息",
+                            "type": "boolean"
+                        }
+                    ],
+                    "additionalItems": {
+                        "title": "额外信息",
+                        "type": "string"
+                    }
+                },
+                nestedList: {
+                    type: "array",
+                    title: "地址",
+                    items: {
+                        type: "array",
+                        title: "详细地址",
+                        items: [{
+
+                                title: "小区",
+                                type: "string",
+                            },
+                            {
+                                title: "门牌号",
+                                type: "string",
+                            }],
+                    },
+                },
 
         },
     }
@@ -118,6 +176,7 @@
         integerRangeSteps: {
             "ui:widget": "range",
         },
+
     }
     var formData = {
         firstName: "Chuck",
