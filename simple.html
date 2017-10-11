@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<script type="text/javascript" src="build/bundle.js"></script>
+<div id="form"></div>
+<script language="JavaScript">
+    var schema= {
+        title: "一个注册表单",
+            description: "一个简单的例子.",
+            type: "object",
+            required: ["firstName", "lastName"],
+            properties: {
+            firstName: {
+                type: "string",
+                    title: "姓",
+            },
+            lastName: {
+                type: "string",
+                    title: "名",
+            },
+            age: {
+                type: "integer",
+                    title: "年龄",
+            },
+            bio: {
+                type: "string",
+                    title: "简历",
+            },
+            password: {
+                type: "string",
+                    title: "密码",
+                    minLength: 3,
+            },
+            telephone: {
+                type: "string",
+                    title: "电话",
+                    minLength: 10,
+            },
+        },
+    }
+    var uiSchema= {
+        firstName: {
+            "ui:autofocus": true,
+                "ui:emptyValue": "",
+        },
+        age: {
+            "ui:widget": "updown",
+                "ui:title": "年龄",
+                "ui:description": "（年）",
+        },
+        bio: {
+            "ui:widget": "textarea",
+        },
+        password: {
+            "ui:widget": "password",
+                "ui:help": "注意：请复杂些!",
+        },
+        date: {
+            "ui:widget": "alt-datetime",
+        },
+        telephone: {
+            "ui:options": {
+                inputType: "tel",
+            },
+        },
+    }
+    var formData = {
+        firstName: "Chuck",
+            lastName: "Norris",
+            age: 75,
+            bio: "这个人的简历",
+            password: "noneed",
+    }
+        window.myRender(schema,uiSchema,formData,"form")
+</script>
+
+
+</body>
+</html>

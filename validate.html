@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<script type="text/javascript" src="build/bundle.js"></script>
+<div id="form"></div>
+<script language="JavaScript">
+    function validate({ pass1, pass2 }, errors) {
+        if (pass1 !== pass2) {
+            errors.pass2.addError("密码不匹配.");
+        }
+        return errors;
+    }
+    function transformErrors(errors) {
+        return errors.map(error => {
+            if (error.name === "minimum" && error.property === "instance.age") {
+                return Object.assign({}, error, {
+                    message: "年龄应该大于18岁",
+                });
+            }
+            else if (error.name === "minLength" ) {
+                    return Object.assign({}, error, {
+                        message: "密码至少有3位",
+                    });
+                }
+            return error;
+        });
+    }
+        var schema= {
+            title: "客户验证",
+            description:
+                "该表单验证密码是否一致",
+            type: "object",
+            properties: {
+                pass1: {
+                    title: "密码",
+                    type: "string",
+                    minLength: 3,
+                },
+                pass2: {
+                    title: "重复密码",
+                    type: "string",
+                    minLength: 3,
+                },
+                age: {
+                    title: "年龄",
+                    type: "number",
+                    minimum: 18,
+                },
+            },
+        }
+        var uiSchema ={
+            pass1: { "ui:widget": "password" },
+            pass2: { "ui:widget": "password" },
+        }
+        var formData= {}
+        window.myRender(schema,uiSchema,formData,"form",{validate,transformErrors})
+</script>
+
+
+</body>
+</html>
