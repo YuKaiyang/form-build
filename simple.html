@@ -182,6 +182,26 @@
 						}],
 				},
 			},
+            file: {
+                title: "文件上传",
+                type: "object",
+                properties: {
+                    file: {
+                        type: "string",
+                        format: "data-url",
+                        title: "单一文件",
+                    },
+                    files: {
+                        type: "array",
+                        title: "复数文件",
+                        items: {
+                            type: "string",
+                            format: "data-url",
+                        },
+                    },
+                }
+            }
+
 
 		},
 	}
@@ -243,3 +263,6 @@
 
 </body>
 </html>
+
+
+
