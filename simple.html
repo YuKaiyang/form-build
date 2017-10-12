@@ -28,6 +28,40 @@
 				type: "integer",
 				title: "年龄",
 			},
+			order: {
+				type: "object",
+				title: "喜欢的英灵（演示排序）",
+				properties: {
+					1: {
+						type: "boolean",
+						title: "1.阿尔托利亚",
+					},
+					2: {
+						type: "boolean",
+						title: "2.吉尔伽美什",
+					},
+					3: {
+						type: "boolean",
+						title: "3.库丘林",
+					},
+					4: {
+						type: "boolean",
+						title: "4.美杜莎",
+					},
+					5: {
+						type: "boolean",
+						title: "5.美狄亚",
+					},
+					6: {
+						type: "boolean",
+						title: "6.霍桑",
+					},
+					7: {
+						type: "boolean",
+						title: "7.赫拉克勒斯",
+					}
+				}
+			},
 			bio: {
 				type: "string",
 				title: "简历",
@@ -160,6 +194,9 @@
 			"ui:widget": "updown",
 			"ui:title": "年龄",
 			"ui:description": "（年）",
+		},
+		order: {
+			"ui:order": [7, 6, 5, 4, 3, 2, 1]
 		},
 		bio: {
 			"ui:widget": "textarea",
