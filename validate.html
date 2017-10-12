@@ -12,10 +12,7 @@
 <script language="JavaScript">
 
 	var city = ["北京", "上海"]
-	//    var local = {
-	//        "北京":[ new Option("",""),new Option("东城","东城"),new Option("西城","西城")],
-	//        "上海":[ new Option("",""),new Option("静安","静安"),new Option("浦东","浦东")],
-	//    }
+
 	var local = {
 		"北京": ["东城", "西城"],
 		"上海": ["静安", "浦东"]
@@ -42,8 +39,9 @@
 			uiSchema.county = {"ui:widget": "hidden"}
 			formData.county = ""
 		}
-		window.myRender(schema, uiSchema, formData, "form", {validate, transformErrors, onChange})
-	}
+        window.myRender(schema, uiSchema, formData, "form", {validate, errorSchema, onChange})
+    }
+
 
 	function validate({pass1, pass2}, errors) {
 		if (pass1 !== pass2) {
@@ -51,21 +49,13 @@
 		}
 		return errors;
 	}
-	function transformErrors(errors) {
-		return errors.map(error => {
-			if (error.name === "minimum" && error.property === "instance.age") {
-				return Object.assign({}, error, {
-					message: "年龄应该大于18岁",
-				});
-			}
-			else if (error.name === "minLength") {
-				return Object.assign({}, error, {
-					message: "密码至少有3位",
-				});
-			}
-			return error;
-		});
-	}
+
+    var errorSchema = {
+        pass1: {name: "minLength", message: "密码至少有3位"},
+        pass2: {name: "minLength", message: "密码至少有3位"},
+        age: {name: "minimum", message: "年龄应该大于18岁"},
+    }
+
 	var schema = {
 		title: "客户验证",
 		description: "该表单验证密码是否一致",
@@ -106,7 +96,7 @@
 		county: {"ui:widget": "hidden"},
 	}
 	var formData = {}
-	window.myRender(schema, uiSchema, formData, "form", {validate, transformErrors, onChange})
+    window.myRender(schema, uiSchema, formData, "form", {validate, onChange, errorSchema})
 	//        document.getElementById("root_city").onchange= (event)=>{
 	//            if(event.target.value){
 	//                document.getElementById("root_county").type=""
