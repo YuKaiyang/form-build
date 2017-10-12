@@ -11,113 +11,120 @@
 <div id="form"></div>
 <script language="JavaScript">
 
-    var city = ["北京","上海"]
-//    var local = {
-//        "北京":[ new Option("",""),new Option("东城","东城"),new Option("西城","西城")],
-//        "上海":[ new Option("",""),new Option("静安","静安"),new Option("浦东","浦东")],
-//    }
-    var local = {
-        "北京":["东城","西城"],
-        "上海":["静安","浦东"]
-    }
-    function onChange(param){
-        console.log(param)
-        if(param.formData.city) {
-            console.log('1')
-            param.schema.properties.county.enum = local[param.formData.city]
-            param.uiSchema.county = {}
-        }
-        else{
-            console.log('2')
-            param.uiSchema.county = {"ui:widget": "hidden"}
-            param.formData.county = ""
-        }
-        console.log(param)
-        window.myRender(param.schema,param.uiSchema,param.formData,"form",{validate,transformErrors,onChange})
+	var city = ["北京", "上海"]
+	//    var local = {
+	//        "北京":[ new Option("",""),new Option("东城","东城"),new Option("西城","西城")],
+	//        "上海":[ new Option("",""),new Option("静安","静安"),new Option("浦东","浦东")],
+	//    }
+	var local = {
+		"北京": ["东城", "西城"],
+		"上海": ["静安", "浦东"]
+	}
+	function deepClone(obj) {
+		var newObj = obj instanceof Array ? [] : {};
+		for (var i in obj) {
+			newObj[i] = typeof obj[i] === 'object' ?
+				deepClone(obj[i]) : obj[i];
+		}
+		return newObj;
+	}
 
-    }
+	function onChange(param) {
+		const schema = deepClone(param.schema)
+		const uiSchema = deepClone(param.uiSchema)
+		const formData = deepClone(param.formData)
 
-    function validate({ pass1, pass2 }, errors) {
-        if (pass1 !== pass2) {
-            errors.pass2.addError("密码不匹配.");
-        }
-        return errors;
-    }
-    function transformErrors(errors) {
-        return errors.map(error => {
-            if (error.name === "minimum" && error.property === "instance.age") {
-                return Object.assign({}, error, {
-                    message: "年龄应该大于18岁",
-                });
-            }
-            else if (error.name === "minLength" ) {
-                    return Object.assign({}, error, {
-                        message: "密码至少有3位",
-                    });
-                }
-            return error;
-        });
-    }
-        var schema= {
-            title: "客户验证",
-            description:
-                "该表单验证密码是否一致",
-            type: "object",
-            properties: {
-                pass1: {
-                    title: "密码",
-                    type: "string",
-                    minLength: 3,
-                },
-                pass2: {
-                    title: "重复密码",
-                    type: "string",
-                    minLength: 3,
-                },
-                age: {
-                    title: "年龄",
-                    type: "number",
-                    minimum: 18,
-                },
-                city: {
-                    "type": "string",
-                    "title": "城市",
-                    "enum": city,
-                    "id" : "city"
-                },
-                county: {
-                    "type": "string",
-                    "title": "区县",
-                    "enum": [],
-                    "id" : "county"
+		if (param.formData.city) {
+			schema.properties.county.enum = local[param.formData.city]
+			uiSchema.county = {}
+		}
+		else {
+			uiSchema.county = {"ui:widget": "hidden"}
+			formData.county = ""
+		}
+		window.myRender(schema, uiSchema, formData, "form", {validate, transformErrors, onChange})
+	}
 
-                },
-            },
-        }
-        var uiSchema ={
-            pass1: { "ui:widget": "password" },
-            pass2: { "ui:widget": "password" },
-        }
-        var formData= {}
-        window.myRender(schema,uiSchema,formData,"form",{validate,transformErrors,onChange})
-//        document.getElementById("root_city").onchange= (event)=>{
-//            if(event.target.value){
-//                document.getElementById("root_county").type=""
-//                document.getElementById("root_county").value=""
-//                var num = document.getElementById("root_county").options.length
-//                for(var i = num -1 ; i >=0; i--){
-//                    document.getElementById("root_county").remove(i)
-//                }
-//                for(var i=0;i<local[event.target.value].length;i++){
-//                    document.getElementById("root_county").add(local[event.target.value][i])
-//                }
-//            }
-//            else{
-//                document.getElementById("root_county").value=""
-//                document.getElementById("root_county").options = [new Option("","")]
-//            }
-//
-//        }
+	function validate({pass1, pass2}, errors) {
+		if (pass1 !== pass2) {
+			errors.pass2.addError("密码不匹配.");
+		}
+		return errors;
+	}
+	function transformErrors(errors) {
+		return errors.map(error => {
+			if (error.name === "minimum" && error.property === "instance.age") {
+				return Object.assign({}, error, {
+					message: "年龄应该大于18岁",
+				});
+			}
+			else if (error.name === "minLength") {
+				return Object.assign({}, error, {
+					message: "密码至少有3位",
+				});
+			}
+			return error;
+		});
+	}
+	var schema = {
+		title: "客户验证",
+		description: "该表单验证密码是否一致",
+		type: "object",
+		properties: {
+			pass1: {
+				title: "密码",
+				type: "string",
+				minLength: 3,
+			},
+			pass2: {
+				title: "重复密码",
+				type: "string",
+				minLength: 3,
+			},
+			age: {
+				title: "年龄",
+				type: "number",
+				minimum: 18,
+			},
+			city: {
+				"type": "string",
+				"title": "城市",
+				"enum": city,
+				"id": "city"
+			},
+			county: {
+				"type": "string",
+				"title": "区县",
+				"enum": [],
+				"id": "county"
+			},
+		},
+	}
+	var uiSchema = {
+		pass1: {"ui:widget": "password"},
+		pass2: {"ui:widget": "password"},
+		county: {"ui:widget": "hidden"},
+	}
+	var formData = {}
+	window.myRender(schema, uiSchema, formData, "form", {validate, transformErrors, onChange})
+	//        document.getElementById("root_city").onchange= (event)=>{
+	//            if(event.target.value){
+	//                document.getElementById("root_county").type=""
+	//                document.getElementById("root_county").value=""
+	//                var num = document.getElementById("root_county").options.length
+	//                for(var i = num -1 ; i >=0; i--){
+	//                    document.getElementById("root_county").remove(i)
+	//                }
+	//                for(var i=0;i<local[event.target.value].length;i++){
+	//                    document.getElementById("root_county").add(local[event.target.value][i])
+	//                }
+	//            }
+	//            else{
+	//                document.getElementById("root_county").value=""
+	//                document.getElementById("root_county").options = [new Option("","")]
+	//            }
+	//
+	//        }
 </script>
 
 
