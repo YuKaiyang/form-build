@@ -10,182 +10,197 @@
 <script type="text/javascript" src="build/bundle.js"></script>
 <div id="form"></div>
 <script language="JavaScript">
-    var schema= {
-        title: "一个注册表单",
-            description: "一个简单的例子.",
-            type: "object",
-            required: ["firstName", "lastName"],
-            properties: {
-            firstName: {
-                type: "string",
-                    title: "姓",
-            },
-            lastName: {
-                type: "string",
-                    title: "名",
-            },
-            age: {
-                type: "integer",
-                    title: "年龄",
-            },
-            bio: {
-                type: "string",
-                    title: "简历",
-            },
-            password: {
-                type: "string",
-                    title: "密码",
-                    minLength: 3,
-            },
-            telephone: {
-                type: "string",
-                    title: "电话",
-                    minLength: 10,
-            },
-            numberEnum: {
-                    type: "number",
-                    title: "出生季度",
-                    enum: [
-                        1,
-                        2,
-                        3,
-                        4
-                    ]
-            },
-            numberEnumRadio: {
-                    "type": "number",
-                    "title": "出生季度(单选)",
-                    "enum": [
-                        1,
-                        2,
-                        3,
-                        4
-                    ]
-            },
-            "integerRange": {
-                    "title": "出生日期",
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 31
-                },
-            "integerRangeSteps": {
-                    "title": "体重（克）",
-                    "type": "integer",
-                    "minimum": 30000,
-                    "maximum": 1500000,
-                    "multipleOf": 1000
-                },
-                "listOfStrings": {
-                    "type": "array",
-                    "title": "爱好",
-                    "items": {
-                        "type": "string",
-                        "default": "默认爱好"
-                    }
-                },
-                "multipleChoicesList": {
-                    "type": "array",
-                    "title": "了解本站方式",
-                    "items": {
-                        "type": "string",
-                        "enum": [
-                            "报纸",
-                            "电视",
-                            "互联网",
-                            "朋友推荐"
-                        ]
-                    },
-                    "uniqueItems": true
-                },
-                "fixedItemsList": {
-                    "type": "array",
-                    "title": "附加信息",
-                    "items": [
-                        {
-                            "title": "对本网站评价",
-                            "type": "string",
-                            "default": "非常好"
-                        },
-                        {
-                            "title": "是否公开信息",
-                            "type": "boolean"
-                        }
-                    ],
-                    "additionalItems": {
-                        "title": "额外信息",
-                        "type": "string"
-                    }
-                },
-                nestedList: {
-                    type: "array",
-                    title: "地址",
-                    items: {
-                        type: "array",
-                        title: "详细地址",
-                        items: [{
+	var schema = {
+		title: "一个注册表单",
+		description: "一个简单的例子.",
+		type: "object",
+		required: ["firstName", "lastName"],
+		properties: {
+			firstName: {
+				type: "string",
+				title: "姓",
+			},
+			lastName: {
+				type: "string",
+				title: "名",
+			},
+			age: {
+				type: "integer",
+				title: "年龄",
+			},
+			bio: {
+				type: "string",
+				title: "简历",
+			},
+			password: {
+				type: "string",
+				title: "密码",
+				minLength: 3,
+			},
+			telephone: {
+				type: "string",
+				title: "电话",
+				minLength: 10,
+			},
+			numberEnum: {
+				type: "number",
+				title: "出生季度",
+				enum: [
+					1,
+					2,
+					3,
+					4
+				]
+			},
+			numberEnumRadio: {
+				"type": "number",
+				"title": "出生季度(单选)",
+				"enum": [
+					1,
+					2,
+					3,
+					4
+				]
+			},
+			"integerRange": {
+				"title": "出生日期",
+				"type": "integer",
+				"minimum": 1,
+				"maximum": 31
+			},
+			"integerRangeSteps": {
+				"title": "体重（克）",
+				"type": "integer",
+				"minimum": 30000,
+				"maximum": 1500000,
+				"multipleOf": 1000
+			},
+			"listOfStrings": {
+				"type": "array",
+				"title": "爱好",
+				"items": {
+					"type": "string",
+					"default": "默认爱好"
+				}
+			},
+			"multipleChoicesList": {
+				"type": "array",
+				"title": "了解本站方式",
+				"items": {
+					"type": "string",
+					"enum": [
+						"报纸",
+						"电视",
+						"互联网",
+						"朋友推荐"
+					]
+				},
+				"uniqueItems": true
+			},
+			"fixedItemsList": {
+				"type": "array",
+				"title": "附加信息",
+				"items": [
+					{
+						type: "object",
+						properties: {
+							description: {
+								"title": "对本网站评价",
+								"type": "string",
+								"default": "非常好"
+							}
+						}
+					},
+					{
+						type: "object",
+						properties: {
+							description: {
+								"title": "是否公开信息",
+								"type": "boolean"
+							}
+						}
+					},
+				],
+				"additionalItems": {
+					type: "object",
+					properties: {
+						description: {
+							"title": "额外信息",
+							"type": "string"
+						}
+					}
+				}
+			},
+			nestedList: {
+				type: "array",
+				title: "地址",
+				items: {
+					type: "array",
+					title: "详细地址",
+					items: [{
 
-                                title: "小区",
-                                type: "string",
-                            },
-                            {
-                                title: "门牌号",
-                                type: "string",
-                            }],
-                    },
-                },
+						title: "小区",
+						type: "string",
+					},
+						{
+							title: "门牌号",
+							type: "string",
+						}],
+				},
+			},
 
-        },
-    }
-    var uiSchema= {
-        firstName: {
-            "ui:autofocus": true,
-                "ui:emptyValue": "",
-        },
-        age: {
-            "ui:widget": "updown",
-                "ui:title": "年龄",
-                "ui:description": "（年）",
-        },
-        bio: {
-            "ui:widget": "textarea",
-        },
-        password: {
-            "ui:widget": "password",
-                "ui:help": "注意：请复杂些!",
-        },
-        date: {
-            "ui:widget": "alt-datetime",
-        },
-        telephone: {
-            "ui:options": {
-                inputType: "tel",
-            },
-        },
-        integer: {
-            "ui:widget": "updown",
-        },
-        numberEnumRadio: {
-            "ui:widget": "radio",
-            "ui:options": {
-                inline: true,
-            },
-        },
-        integerRange: {
-            "ui:widget": "range",
-        },
-        integerRangeSteps: {
-            "ui:widget": "range",
-        },
+		},
+	}
+	var uiSchema = {
+		firstName: {
+			"ui:autofocus": true,
+			"ui:emptyValue": "",
+		},
+		age: {
+			"ui:widget": "updown",
+			"ui:title": "年龄",
+			"ui:description": "（年）",
+		},
+		bio: {
+			"ui:widget": "textarea",
+		},
+		password: {
+			"ui:widget": "password",
+			"ui:help": "注意：请复杂些!",
+		},
+		date: {
+			"ui:widget": "alt-datetime",
+		},
+		telephone: {
+			"ui:options": {
+				inputType: "tel",
+			},
+		},
+		integer: {
+			"ui:widget": "updown",
+		},
+		numberEnumRadio: {
+			"ui:widget": "radio",
+			"ui:options": {
+				inline: true,
+			},
+		},
+		integerRange: {
+			"ui:widget": "range",
+		},
+		integerRangeSteps: {
+			"ui:widget": "range",
+		},
 
-    }
-    var formData = {
-        firstName: "Chuck",
-            lastName: "Norris",
-            age: 75,
-            bio: "这个人的简历",
-            password: "noneed",
-    }
-        window.myRender(schema,uiSchema,formData,"form")
+	}
+	var formData = {
+		firstName: "Chuck",
+		lastName: "Norris",
+		age: 75,
+		bio: "这个人的简历",
+		password: "noneed",
+	}
+	window.myRender(schema, uiSchema, formData, "form")
 </script>
 
 
