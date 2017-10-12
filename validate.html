@@ -24,22 +24,6 @@
         "上海":[ new Option("",""),new Option("静安","静安"),new Option("浦东","浦东")],
     }
 
-//    function onChange(param){
-//        console.log(param)
-//        if(param.formData.city) {
-//            console.log('1')
-//            param.schema.properties.county.enum = local[param.formData.city]
-//            param.uiSchema.county = {}
-//        }
-//        else{
-//            console.log('2')
-//            param.uiSchema.county = {"ui:widget": "hidden"}
-//            param.formData.county = ""
-//        }
-//        console.log(param)
-//        window.myRender(param.schema,param.uiSchema,param.formData,"form",{validate,transformErrors,onChange})
-//
-//    }
 
     function validate({ pass1, pass2 }, errors) {
         if (pass1 !== pass2) {
