@@ -39,23 +39,30 @@
 			uiSchema.county = {"ui:widget": "hidden"}
 			formData.county = ""
 		}
-        window.myRender(schema, uiSchema, formData, "form", {validate, onChange, errorInfo, cascadeSchema})
-    }
+		window.myRender(schema, uiSchema, formData, "form", {
+			validate,
+			onChange,
+			errorInfo,
+			cascadeSchema,
+			liveValidate,
+			onBlur,
+		})
+	}
 
 
 	function validate({pass1, pass2}, errors) {
 		if (pass1 !== pass2) {
-            errors.pass2.addError("两次输入密码不一致.");
+			errors.pass2.addError("两次输入密码不一致.");
 		}
 		return errors;
 	}
 
-    var errorInfo = {
-        pass1: {name: "minLength", message: "密码至少有3位"},
-        pass2: {name: "minLength", message: "密码至少有3位"},
-        age: {name: "minimum", message: "年龄应该大于18岁"},
-        email: {name: "pattern", message: "电子邮件不符合格式"}
-    }
+	var errorInfo = {
+		pass1: {name: "minLength", message: "密码至少有3位"},
+		pass2: {name: "minLength", message: "密码至少有3位"},
+		age: {name: "minimum", message: "年龄应该大于18岁"},
+		email: {name: "pattern", message: "电子邮件不符合格式"}
+	}
 
 	var schema = {
 		title: "客户验证",
@@ -75,7 +82,7 @@
 			age: {
 				title: "年龄",
 				type: "number",
-                placeholder: "请输入年龄",
+				placeholder: "请输入年龄",
 				minimum: 18,
 			},
 			city: {
@@ -90,44 +97,57 @@
 				"enum": [],
 				"id": "county"
 			},
-            city1: {
-                "type": "string",
-                "title": "城市(使用cascadeSchema)",
-                "enum": city,
-                "id": "city1"
-            },
-            county1: {
-                "type": "string",
-                "title": "区县(使用cascadeSchema)",
-                "enum": [],
-                "id": "county1"
-            },
-            email: {
-                "type": "string",
-                "title": "电子邮件",
-                "id": "email",
-                "pattern": "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",
-            },
+			city1: {
+				"type": "string",
+				"title": "城市(使用cascadeSchema)",
+				"enum": city,
+				"id": "city1"
+			},
+			county1: {
+				"type": "string",
+				"title": "区县(使用cascadeSchema)",
+				"enum": [],
+				"id": "county1"
+			},
+			email: {
+				"type": "string",
+				"title": "电子邮件",
+				"id": "email",
+				"pattern": "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",
+			},
 		},
 	}
 	var uiSchema = {
 		pass1: {"ui:widget": "password"},
-        pass2: {
-            "ui:widget": "password",
-            "ui:placeholder": "请再次输入密码"
-        },
+		pass2: {
+			"ui:widget": "password",
+			"ui:placeholder": "请再次输入密码"
+		},
 		county: {"ui:widget": "hidden"},
 	}
-    var formData = {
-        city1: "北京"
-    }
+	var formData = {
+		city1: "北京"
+	}
 
-    var cascadeSchema = {
-        city1: [{name: 'county1', dataSource: local}]
-    }
+	var cascadeSchema = {
+		city1: [{name: 'county1', dataSource: local}]
+	}
+	//实时验证
+	var liveValidate = true
+	//失去焦点
+	var onBlur = function () {
+		console.log(arguments)
+	}
 
-    window.myRender(schema, uiSchema, formData, "form", {validate, onChange, errorInfo, cascadeSchema})
-    //    window.myRender(schema, uiSchema, formData, "form", {validate,  errorInfo, cascadeSchema})
+	window.myRender(schema, uiSchema, formData, "form", {
+		validate,
+		onChange,
+		errorInfo,
+		cascadeSchema,
+		liveValidate,
+		onBlur,
+	})
+	//    window.myRender(schema, uiSchema, formData, "form", {validate,  errorInfo, cascadeSchema})
 </script>
 
 
