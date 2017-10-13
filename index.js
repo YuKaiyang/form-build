@@ -6,7 +6,6 @@ import {render} from 'react-dom'
 import Form from "react-jsonschema-form"
 
 const myRender = (schema, uiSchema, formData, container, props) => {
-    console.log(props)
     // 处理用户定义错误信息
     if (props && props.errorInfo && !props.transformErrors) {
         const transformErrors = errors => {
@@ -59,10 +58,6 @@ const myRender = (schema, uiSchema, formData, container, props) => {
         props.onChange = newOnChange(props, deepClone, container)
 
     }
-    else {
-        console.log('has onchange')
-    }
-    console.log(schema)
 	render((
 		<Form schema={schema}
 		      uiSchema={uiSchema}
