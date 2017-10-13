@@ -26,7 +26,6 @@ const myRender = (schema, uiSchema, formData, container, props) => {
     }
     //处理用户定义级联
     console.log(formData)
-    console.log(props.cascadeSchema)
     if (props && props.cascadeSchema) {
         for (let mainPath in props.cascadeSchema) {
             console.log('ccccccc')
