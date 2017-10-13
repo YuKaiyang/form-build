@@ -126,26 +126,8 @@
         city1: [{name: 'county1', dataSource: local}]
     }
 
-
     window.myRender(schema, uiSchema, formData, "form", {validate, onChange, errorInfo, cascadeSchema})
-	//        document.getElementById("root_city").onchange= (event)=>{
-	//            if(event.target.value){
-	//                document.getElementById("root_county").type=""
-	//                document.getElementById("root_county").value=""
-	//                var num = document.getElementById("root_county").options.length
-	//                for(var i = num -1 ; i >=0; i--){
-	//                    document.getElementById("root_county").remove(i)
-	//                }
-	//                for(var i=0;i<local[event.target.value].length;i++){
-	//                    document.getElementById("root_county").add(local[event.target.value][i])
-	//                }
-	//            }
-	//            else{
-	//                document.getElementById("root_county").value=""
-	//                document.getElementById("root_county").options = [new Option("","")]
-	//            }
-	//
-	//        }
+    //    window.myRender(schema, uiSchema, formData, "form", {validate,  errorInfo, cascadeSchema})
 </script>
 
 

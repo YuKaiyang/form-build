@@ -6,6 +6,7 @@ import {render} from 'react-dom'
 import Form from "react-jsonschema-form"
 
 const myRender = (schema, uiSchema, formData, container, props) => {
+    console.log(props)
     // 处理用户定义错误信息
     if (props && props.errorInfo && !props.transformErrors) {
         const transformErrors = errors => {
@@ -43,18 +44,25 @@ const myRender = (schema, uiSchema, formData, container, props) => {
             }
         }
     }
-    console.log('props')
-    console.log(props)
 
 
-    // if(props && !props.onChange){
-    //
-    //     const newOnChange = param =>{
-    //         myRender(param.schema,param.uiSchema,param.formData,container,...props)
-    //     }
-    //     props.onChange=newOnChange
-    // }
+    if (!props || !props.onChange) {
+        if (!props) {
+            props = {}
+        }
+        const newOnChange = (props, deepClone, container) => param => {
+            const schema = deepClone(param.schema)
+            const uiSchema = deepClone(param.uiSchema)
+            const formData = deepClone(param.formData)
+            myRender(schema, uiSchema, formData, container, props)
+        }
+        props.onChange = newOnChange(props, deepClone, container)
 
+    }
+    else {
+        console.log('has onchange')
+    }
+    console.log(schema)
 	render((
 		<Form schema={schema}
 		      uiSchema={uiSchema}
@@ -85,4 +93,13 @@ function getvalue(data, path) {
         }
     }
     return value
+}
+
+function deepClone(obj) {
+    var newObj = obj instanceof Array ? [] : {};
+    for (var i in obj) {
+        newObj[i] = typeof obj[i] === 'object' ?
+            deepClone(obj[i]) : obj[i];
+    }
+    return newObj;
 }
