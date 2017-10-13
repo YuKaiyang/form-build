@@ -90,6 +90,18 @@
 				"enum": [],
 				"id": "county"
 			},
+            city1: {
+                "type": "string",
+                "title": "城市(使用cascadeSchema)",
+                "enum": city,
+                "id": "city1"
+            },
+            county1: {
+                "type": "string",
+                "title": "区县(使用cascadeSchema)",
+                "enum": [],
+                "id": "county1"
+            },
             email: {
                 "type": "string",
                 "title": "电子邮件",
@@ -106,7 +118,15 @@
         },
 		county: {"ui:widget": "hidden"},
 	}
-	var formData = {}
+    var formData = {
+        city1: "北京"
+    }
+
+    var cascadeSchema = {
+        city1: [{name: 'county1', dataSource: local}]
+    }
+
+
     window.myRender(schema, uiSchema, formData, "form", {validate, onChange, errorInfo})
 	//        document.getElementById("root_city").onchange= (event)=>{
 	//            if(event.target.value){
