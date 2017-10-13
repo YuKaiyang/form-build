@@ -25,23 +25,35 @@ const myRender = (schema, uiSchema, formData, container, props) => {
         props.transformErrors = transformErrors
     }
     //处理用户定义级联
-    console.log(formData)
     if (props && props.cascadeSchema) {
         for (let mainPath in props.cascadeSchema) {
-            console.log('ccccccc')
-            let mainField = getvalue(formData, mainPath)
-            console.log('dddd')
-            console.log(mainField)
+            let mainValue = getvalue(formData, mainPath)
             //主列的value就是从列的key
-            if (mainField && mainField.value) {
+            if (mainValue) {
                 for (var childFieldInfo of props.cascadeSchema[mainPath]) {
-                    let childField = getvalue(formData, childFieldInfo.name)
-                    childField.enum = childFieldInfo.dataSource
+                    let childField = getvalue(schema.properties, childFieldInfo.name)
+                    childField.enum = childFieldInfo.dataSource[mainValue]
+                }
+            }
+            else {
+                for (var childFieldInfo of props.cascadeSchema[mainPath]) {
+                    let childField = getvalue(schema.properties, childFieldInfo.name)
+                    childField.enum = []
                 }
             }
         }
     }
-    console.log(schema)
+    console.log('props')
+    console.log(props)
+
+
+    // if(props && !props.onChange){
+    //
+    //     const newOnChange = param =>{
+    //         myRender(param.schema,param.uiSchema,param.formData,container,...props)
+    //     }
+    //     props.onChange=newOnChange
+    // }
 
 	render((
 		<Form schema={schema}
@@ -57,14 +69,15 @@ window.myRender = myRender.bind(this)
 
 /**
  * 根据所给路径获取获取对象
- * @param formData react-jsonschema-form的formData
- * @param path formData中的路径
+ * @param data react-jsonschema-form的某个schema
+ * @param path data中的路径
  * @returns 路径对应对象
  */
-function getvalue(formData, path) {
-    let value = formData
+function getvalue(data, path) {
+    let value = data
     let keyList = path.split('/')
     for (var pathValue of keyList) {
+
         value = value[pathValue]
         if (!value) {
             // console.log(key+'对应的值未找到')
