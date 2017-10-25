@@ -5,8 +5,24 @@ import React from 'react'
 import {render} from 'react-dom'
 import Form from "react-jsonschema-form"
 
+class BlurForm extends Form {
+    constructor(props) {
+        super(props);
+        const superOnBlur = this.onBlur;
+        this.onBlur = (...args) => {
+            const {formData} = this.state;
+            const {errors, errorSchema} = this.validate(formData);
+            this.setState({errors, errorSchema}, () => superOnBlur(...args));
+        }
+    }
+}
+
+
+
 const myRender = (schema, uiSchema, formData, container, props) => {
     // 处理用户定义错误信息
+
+
     if (props && props.errorInfo && !props.transformErrors) {
         const transformErrors = errors => {
             var result = errors.map(error => {
@@ -45,6 +61,19 @@ const myRender = (schema, uiSchema, formData, container, props) => {
     }
 
 
+    var tipComponent = <div></div>
+    if (props && props.autoCompleteSchema) {
+        for (let mainPath in props.autoCompleteSchema) {
+            let mainValue = getvalue(schema, mainPath)
+            //主列的value就是从列的key
+            if (mainValue) {
+                console.log(mainValue)
+                let tip = props.autoCompleteSchema[mainPath].dataSource(mainValue)
+            }
+        }
+    }
+
+
     if (!props || !props.onChange) {
         if (!props) {
             props = {}
@@ -59,13 +88,13 @@ const myRender = (schema, uiSchema, formData, container, props) => {
 
     }
 	render((
-		<Form schema={schema}
-		      uiSchema={uiSchema}
-		      formData={formData}
-		      {...props}
+        <BlurForm schema={schema}
+                  uiSchema={uiSchema}
+                  formData={formData}
+                  {...props}
 		>
 			<button className="btn btn-info" type="submit">提交</button>
-		</Form>
+        </BlurForm>
 	), document.getElementById(container))
 }
 window.myRender = myRender.bind(this)

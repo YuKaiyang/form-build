@@ -46,6 +46,7 @@
 			cascadeSchema,
 			liveValidate,
 			onBlur,
+            autoCompleteSchema
 		})
 	}
 
@@ -115,6 +116,11 @@
 				"id": "email",
 				"pattern": "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",
 			},
+            myAutoComplete: {
+                "type": "string",
+                "title": "自动补全信息",
+                "id": "myAutoComplete"
+            },
 		},
 	}
 	var uiSchema = {
@@ -133,12 +139,26 @@
 		city1: [{name: 'county1', dataSource: local}]
 	}
 	//实时验证
-	var liveValidate = true
+    var liveValidate = false
 	//失去焦点
 	var onBlur = function () {
 		console.log(arguments)
 	}
 
+    /**
+     *
+     * @param id 自动补全的空间的id
+     * @param value //自动补全的输入框的输入值
+     * @returns 返回显示值数组
+     */
+    function getAutoCompleteInfo(value) {
+        console.log(value)
+        return ["I1", "I2", "I3", "I4"]
+    }
+
+    var autoCompleteSchema = {
+        myAutoComplete: {dataSource: getAutoCompleteInfo, inputClass: "", rowClass: ""}
+    }
 	window.myRender(schema, uiSchema, formData, "form", {
 		validate,
 		onChange,
@@ -146,7 +166,11 @@
 		cascadeSchema,
 		liveValidate,
 		onBlur,
-	})
+        autoCompleteSchema
+    })
+
+
+
 	//    window.myRender(schema, uiSchema, formData, "form", {validate,  errorInfo, cascadeSchema})
 </script>
 
