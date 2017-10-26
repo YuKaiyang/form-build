@@ -85,11 +85,22 @@ const myRender = (schema, uiSchema, formData, container, props) => {
 			this.state = Object.assign({}, props.formData)
 		}
 
+		onChange(name) {
+			return (event) => {
+				this.setState({
+					[name]: event.target.value
+				})
+			}
+		}
+
 		render() {
-			const {func, time, value, placeholder, disabled, inputClass, buttonClass} = this.state
+			const {func, time, value, placeholder, disabled, inputClass, buttonClass, inputValue} = this.state
 			return (
 				<div>
-					<input type="text" className={inputClass} placeholder={placeholder}/>
+					<input type="text" className={inputClass} placeholder={placeholder}
+					       value={inputValue || ""}
+					       onChange={this.onChange("inputValue")}
+					/>
 					<button className={buttonClass}
 					        disabled={disabled || false}
 					        onClick={() => {
