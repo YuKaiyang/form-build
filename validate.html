@@ -119,6 +119,8 @@
 			validate: {
 				type: "object",
 				properties: {
+					title: {type: "text", default: "发送验证码"},
+					id: {type: "text", default: "myTestValidate"},
 					func: {
 						type: "function", default: function () {
 							console.log("点击方法")

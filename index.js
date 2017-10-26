@@ -94,30 +94,33 @@ const myRender = (schema, uiSchema, formData, container, props) => {
 		}
 
 		render() {
-			const {func, time, value, placeholder, disabled, inputClass, buttonClass, inputValue} = this.state
+			const {func, time, value, placeholder, disabled, inputClass, buttonClass, inputValue, title, id} = this.state
 			return (
 				<div>
-					<input type="text" className={inputClass} placeholder={placeholder}
-					       value={inputValue || ""}
-					       onChange={this.onChange("inputValue")}
-					/>
-					<button className={buttonClass}
-					        disabled={disabled || false}
-					        onClick={() => {
-						        func()
-						        this.setState({disabled: true})
-						        const defaultValue = value
-						        let i = time / 1000
-						        this.setState({value: i + "s"})
-						        const t1 = setInterval(() => {
-							        if (i-- > 1) {
-								        this.setState({value: i + "s"})
-							        } else {
-								        this.setState({value: defaultValue, disabled: false})
-								        clearInterval(t1)
-							        }
-						        }, 1000)
-					        }}>{value}</button>
+					<label className="control-label" htmlFor={id}>{title}</label>
+					<div>
+						<input type="text" className={inputClass} placeholder={placeholder}
+						       value={inputValue || ""} id={id}
+						       onChange={this.onChange("inputValue")}
+						/>
+						<button className={buttonClass}
+						        disabled={disabled || false}
+						        onClick={() => {
+							        func()
+							        this.setState({disabled: true})
+							        const defaultValue = value
+							        let i = time / 1000
+							        this.setState({value: i + "s"})
+							        const t1 = setInterval(() => {
+								        if (i-- > 1) {
+									        this.setState({value: i + "s"})
+								        } else {
+									        this.setState({value: defaultValue, disabled: false})
+									        clearInterval(t1)
+								        }
+							        }, 1000)
+						        }}>{value}</button>
+					</div>
 				</div>
 			)
 		}
