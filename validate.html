@@ -10,9 +10,7 @@
 <script type="text/javascript" src="build/bundle.js"></script>
 <div id="form"></div>
 <script language="JavaScript">
-
 	var city = ["北京", "上海"]
-
 	var local = {
 		"北京": ["东城", "西城"],
 		"上海": ["静安", "浦东"]
@@ -44,12 +42,9 @@
 			onChange,
 			errorInfo,
 			cascadeSchema,
-			liveValidate,
-			onBlur,
-            autoCompleteSchema
+			autoCompleteSchema
 		})
 	}
-
 
 	function validate({pass1, pass2}, errors) {
 		if (pass1 !== pass2) {
@@ -116,11 +111,26 @@
 				"id": "email",
 				"pattern": "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",
 			},
-            myAutoComplete: {
-                "type": "string",
-                "title": "自动补全信息",
-                "id": "myAutoComplete"
-            },
+			myAutoComplete: {
+				"type": "string",
+				"title": "自动补全信息",
+				"id": "myAutoComplete"
+			},
+			validate: {
+				type: "object",
+				properties: {
+					func: {
+						type: "function", default: function () {
+							console.log("点击方法")
+						}
+					},
+					time: {type: "number", default: 5000},
+					value: {type: "string", default: "验证"},
+					placeholder: {type: "string", default: "输入"},
+					inputClass: {type: "string", default: ""},
+					buttonClass: {type: "string", default: "btn btn-info"},
+				},
+			},
 		},
 	}
 	var uiSchema = {
@@ -130,6 +140,7 @@
 			"ui:placeholder": "请再次输入密码"
 		},
 		county: {"ui:widget": "hidden"},
+		validate: {"ui:field": "validate"},
 	}
 	var formData = {
 		city1: "北京"
@@ -138,42 +149,28 @@
 	var cascadeSchema = {
 		city1: [{name: 'county1', dataSource: local}]
 	}
-	//实时验证
-    var liveValidate = false
-	//失去焦点
-	var onBlur = function () {
-		console.log(arguments)
+	/**
+	 * @param id 自动补全的空间的id
+	 * @param value //自动补全的输入框的输入值
+	 * @returns 返回显示值数组
+	 */
+	function getAutoCompleteInfo(value) {
+		console.log(value)
+		return ["I1", "I2", "I3", "I4"]
 	}
 
-    /**
-     *
-     * @param id 自动补全的空间的id
-     * @param value //自动补全的输入框的输入值
-     * @returns 返回显示值数组
-     */
-    function getAutoCompleteInfo(value) {
-        console.log(value)
-        return ["I1", "I2", "I3", "I4"]
-    }
+	var autoCompleteSchema = {
+		myAutoComplete: {dataSource: getAutoCompleteInfo, inputClass: "", rowClass: ""}
+	}
 
-    var autoCompleteSchema = {
-        myAutoComplete: {dataSource: getAutoCompleteInfo, inputClass: "", rowClass: ""}
-    }
 	window.myRender(schema, uiSchema, formData, "form", {
 		validate,
 		onChange,
 		errorInfo,
 		cascadeSchema,
-		liveValidate,
-		onBlur,
-        autoCompleteSchema
-    })
-
-
-
+		autoCompleteSchema,
+	})
 	//    window.myRender(schema, uiSchema, formData, "form", {validate,  errorInfo, cascadeSchema})
 </script>
-
-
 </body>
 </html>
