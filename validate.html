@@ -42,7 +42,6 @@
 			onChange,
 			errorInfo,
 			cascadeSchema,
-			autoCompleteSchema
 		})
 	}
 
@@ -114,7 +113,18 @@
 			myAutoComplete: {
 				"type": "string",
 				"title": "自动补全信息",
-				"id": "myAutoComplete"
+                "id": "myAutoComplete",
+                properties: {
+                    getNewTip: function (value) {
+                        return [Math.random().toString(), Math.random().toString(), Math.random().toString()]
+                        //获取新的智能提示
+                    },
+                    placeholder: "请输入",
+                    inputClass: "",
+                    rowClass: "",
+                    titleClass: ""
+
+                },
 			},
 			validate: {
 				type: "object",
@@ -144,6 +154,7 @@
 		},
 		county: {"ui:widget": "hidden"},
 		validate: {"ui:field": "validate"},
+        myAutoComplete: {"ui:field": "autoCompleteField"}
 	}
 	var formData = {
 		city1: "北京"
@@ -152,26 +163,13 @@
 	var cascadeSchema = {
 		city1: [{name: 'county1', dataSource: local}]
 	}
-	/**
-	 * @param id 自动补全的空间的id
-	 * @param value //自动补全的输入框的输入值
-	 * @returns 返回显示值数组
-	 */
-	function getAutoCompleteInfo(value) {
-		console.log(value)
-		return ["I1", "I2", "I3", "I4"]
-	}
 
-	var autoCompleteSchema = {
-		myAutoComplete: {dataSource: getAutoCompleteInfo, inputClass: "", rowClass: ""}
-	}
 
-	window.myRender(schema, uiSchema, formData, "form", {
+    window.myRender(schema, uiSchema, formData, "form", {
 		validate,
 		onChange,
 		errorInfo,
 		cascadeSchema,
-		autoCompleteSchema,
 	})
 	//    window.myRender(schema, uiSchema, formData, "form", {validate,  errorInfo, cascadeSchema})
 </script>

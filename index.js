@@ -4,6 +4,7 @@
 import React from 'react'
 import {render} from 'react-dom'
 import Form from "react-jsonschema-form"
+import AutoComplete from 'react-autocomplete/build/lib/index'
 
 class BlurForm extends Form {
 	constructor(props) {
@@ -53,17 +54,17 @@ const myRender = (schema, uiSchema, formData, container, props) => {
 		}
 	}
 
-	var tipComponent = <div></div>
-	if (props && props.autoCompleteSchema) {
-		for (let mainPath in props.autoCompleteSchema) {
-			let mainValue = getvalue(schema, mainPath)
-			//主列的value就是从列的key
-			if (mainValue) {
-				console.log(mainValue)
-				let tip = props.autoCompleteSchema[mainPath].dataSource(mainValue)
-			}
-		}
-	}
+    // var tipComponent = <div></div>
+    // if (props && props.autoCompleteSchema) {
+    // 	for (let mainPath in props.autoCompleteSchema) {
+    // 		let mainValue = getvalue(schema, mainPath)
+    // 		//主列的value就是从列的key
+    // 		if (mainValue) {
+    // 			console.log(mainValue)
+    // 			let tip = props.autoCompleteSchema[mainPath].dataSource(mainValue)
+    // 		}
+    // 	}
+    // }
 
 	if (!props || !props.onChange) {
 		if (!props) {
@@ -125,7 +126,61 @@ const myRender = (schema, uiSchema, formData, container, props) => {
 			)
 		}
 	}
-	const fields = {validate: validate};
+
+
+    class AutoCompleteField extends React.Component {
+        constructor(props) {
+            super(props)
+            this.state = {}
+        }
+
+        render() {
+            const {getNewTip, placeholder, rowClass, inputClass, titleClass} = this.props.schema.properties
+            const {title} = this.props.schema
+
+            return (
+                <div>
+                    <label className={titleClass ? titleClass : "control-label"}>{title}</label><br/>
+                    <AutoComplete
+                        className={inputClass ? inputClass : ""}
+                        inputProps={{
+                            placeholder: placeholder ? placeholder : "请输入查询信息",
+                        }}
+                        items={this.state && this.state.dataSource !== undefined && this.state.dataSource !== null ? this.state.dataSource : []}
+                        getItemValue={(item) => item}
+                        value={this.state.value ? this.state.value : ""}
+                        onChange={(event, value) => {
+                            this.setState({value: value})
+                            const newTip = getNewTip(value)
+                            this.setState({dataSource: newTip})
+                        }}
+                        onSelect={(value, item) => {
+                            this.setState({value: value})
+                        }}
+
+                        renderItem={item => {
+                            return <div className={rowClass} key={item}>{item}</div>
+                        }
+
+                        }
+                    >
+
+                    </AutoComplete>
+                </div>
+
+
+            );
+        };
+    }
+
+
+    const fields = {
+        validate: validate,
+        autoCompleteField: AutoCompleteField
+    };
+
+
+
 	render((
 		<BlurForm schema={schema}
 		          uiSchema={uiSchema}
