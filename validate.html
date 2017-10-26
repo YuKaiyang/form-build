@@ -115,14 +115,14 @@
 				"title": "自动补全信息",
                 "id": "myAutoComplete",
                 properties: {
+                    //获取新的智能提示,返回字符串数组,要求方法同步同步
                     getNewTip: function (value) {
                         return [Math.random().toString(), Math.random().toString(), Math.random().toString()]
-                        //获取新的智能提示
                     },
                     placeholder: "请输入",
-                    inputClass: "",
-                    rowClass: "",
-                    titleClass: ""
+                    inputClass: "",//输入框的class
+                    rowClass: "",//智能提示每行的class
+                    titleClass: ""//标题的class
 
                 },
 			},
