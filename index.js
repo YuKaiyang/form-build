@@ -97,9 +97,10 @@ const myRender = (schema, uiSchema, formData, container, props) => {
 						        this.setState({disabled: true})
 						        const defaultValue = value
 						        let i = time / 1000
+						        this.setState({value: i + "s"})
 						        const t1 = setInterval(() => {
-							        if (i > 0) {
-								        this.setState({value: i--})
+							        if (i-- > 1) {
+								        this.setState({value: i + "s"})
 							        } else {
 								        this.setState({value: defaultValue, disabled: false})
 								        clearInterval(t1)
