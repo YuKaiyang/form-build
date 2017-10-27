@@ -24,26 +24,30 @@
 		return newObj;
 	}
 
-	function onChange(param) {
-		const schema = deepClone(param.schema)
-		const uiSchema = deepClone(param.uiSchema)
-		const formData = deepClone(param.formData)
+    /**
+     * 必须在最后调用window.myRender
+     * @param param 包含schema,uiSchema,formData
+     */
+    function onChange(param) {
+        const schema = deepClone(param.schema)
+        const uiSchema = deepClone(param.uiSchema)
+        const formData = deepClone(param.formData)
 
-		if (param.formData.city) {
-			schema.properties.county.enum = local[param.formData.city]
-			uiSchema.county = {}
-		}
-		else {
-			uiSchema.county = {"ui:widget": "hidden"}
-			formData.county = ""
-		}
-		window.myRender(schema, uiSchema, formData, "form", {
-			validate,
-			onChange,
-			errorInfo,
-			cascadeSchema,
-		})
-	}
+        if (param.formData.city) {
+            schema.properties.county.enum = local[param.formData.city]
+            uiSchema.county = {}
+        }
+        else {
+            uiSchema.county = {"ui:widget": "hidden"}
+            formData.county = ""
+        }
+        window.myRender(schema, uiSchema, formData, "form", {
+            validate,
+            onChange,
+            errorInfo,
+            cascadeSchema,
+        })
+    }
 
 	function validate({pass1, pass2}, errors) {
 		if (pass1 !== pass2) {
