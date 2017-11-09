@@ -30,11 +30,11 @@ module.exports = {
 		// 	name: 'vendor',
 		// 	filename: 'vendor-[hash].min.js',
 		// }),
-		// new webpack.optimize.UglifyJsPlugin({
-		// 	compress: {
-		// 		warnings: false,
-		// 		drop_console: false,
-		// 	}
-		// }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false,
+                drop_console: false,
+            }
+        }),
 	]
 };

@@ -156,27 +156,46 @@ const myRender = (schema, uiSchema, formData, container, props) => {
                 <div>
                     <label className={titleClass ? titleClass : "control-label"}>{title}</label><br/>
                     <AutoComplete
-                        className={inputClass ? inputClass : ""}
-                        inputProps={{
+						className={inputClass ? inputClass : ""}
+						inputProps={{
                             placeholder: placeholder ? placeholder : "请输入查询信息",
                         }}
-                        items={this.state && this.state.dataSource !== undefined && this.state.dataSource !== null ? this.state.dataSource : []}
-                        getItemValue={(item) => item}
-                        value={this.state.value ? this.state.value : ""}
-                        onChange={(event, value) => {
+						menuStyle={{
+                            borderRadius: '3px',
+                            boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
+                            background: 'rgba(255, 255, 255, 0.9)',
+                            padding: '2px 0',
+                            fontSize: '90%',
+                            position: 'relative',
+                            overflow: 'auto',
+                            maxHeight: '50%', // TODO: don't cheat, let it flow to the bottom
+                        }}
+
+
+						items={this.state && this.state.dataSource !== undefined && this.state.dataSource !== null ? this.state.dataSource : []}
+						getItemValue={(item) => item}
+						value={this.state.value ? this.state.value : ""}
+						onChange={(event, value) => {
                             this.setState({value: value})
                             const newTip = getNewTip(value)
                             this.setState({dataSource: newTip})
                         }}
-                        onSelect={(value, item) => {
+						onSelect={(value, item) => {
                             this.setState({value: value})
                         }}
 
-                        renderItem={item => {
+						renderItem={item => {
                             return <div className={rowClass} key={item}>{item}</div>
-                        }
+                        }}
 
-                        }
+						renderMenu={(items, value, style) => {
+                            if (items.length > 0) {
+                                return <div style={Object.assign(style, this.menuStyle)} children={items}/>
+                            }
+                            else {
+                                return <div hidden="true" children={items}/>
+                            }
+                        }}
                     >
 
                     </AutoComplete>
