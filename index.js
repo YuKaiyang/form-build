@@ -38,11 +38,35 @@ const myRender = (schema, uiSchema, formData, container, props) => {
 	if (props && props.cascadeSchema) {
 		for (let mainPath in props.cascadeSchema) {
 			let mainValue = getvalue(formData, mainPath)
-			//主列的value就是从列的key
+            //主列的value就是从列的key]
 			if (mainValue) {
 				for (var childFieldInfo of props.cascadeSchema[mainPath]) {
 					let childField = getvalue(schema.properties, childFieldInfo.name)
-					childField.enum = childFieldInfo.dataSource[mainValue]
+                    for (var data of childFieldInfo.dataSource.data) {
+                        if (data.key === mainValue) {
+                            if (childField.type === "string") {
+                                childField.enum = data.enum
+                                var childFieldValue = getvalue(formData, childFieldInfo.name)
+                                var flag = contains(data.enum, childFieldValue)
+                                if (!flag) {
+                                    changeValue(formData, childFieldInfo.name, "")
+                                }
+                            }
+                            else if (childField.type === "array") {
+                                childField.items.enum = data.enum
+                            }
+                            else if (childField.type === "object") {
+                                var properties = {}
+                                data.enum.map((item) => {
+                                    properties[item] = {
+                                        type: "boolean",
+                                        title: item,
+                                    }
+                                })
+                                childField.properties = properties
+                            }
+                        }
+                    }
 				}
 			}
 			else {
@@ -54,17 +78,7 @@ const myRender = (schema, uiSchema, formData, container, props) => {
 		}
 	}
 
-    // var tipComponent = <div></div>
-    // if (props && props.autoCompleteSchema) {
-    // 	for (let mainPath in props.autoCompleteSchema) {
-    // 		let mainValue = getvalue(schema, mainPath)
-    // 		//主列的value就是从列的key
-    // 		if (mainValue) {
-    // 			console.log(mainValue)
-    // 			let tip = props.autoCompleteSchema[mainPath].dataSource(mainValue)
-    // 		}
-    // 	}
-    // }
+
 
 	if (!props || !props.onChange) {
 		if (!props) {
@@ -209,12 +223,38 @@ function getvalue(data, path) {
 
 		value = value[pathValue]
 		if (!value) {
-			// console.log(key+'对应的值未找到')
 			break;
 		}
 	}
 	return value
 }
+
+/**
+ * 根据所给路径返回对象应该修改成的数值
+ * @param data react-jsonschema-form的某个schema
+ * @param path data中的路径
+ * @returns 对象应该修改成的数值
+ */
+function changeValue(data, path, newValue) {
+    let value = data
+    let keyList = []
+    let returnValue = data
+    if (typeof path == 'string') {
+        keyList = path.split('/')
+    }
+    else {
+        keyList = path
+        keyList.shift()
+    }
+    if (keyList.length === 1) {
+        returnValue[keyList[0]] = newValue
+    }
+    else {
+        returnValue[keyList[0]] = changeValue(value[keyList[0]], keyList, newValue)
+    }
+    return returnValue
+}
+
 
 function deepClone(obj) {
 	var newObj = obj instanceof Array ? [] : {};
@@ -223,4 +263,14 @@ function deepClone(obj) {
 			deepClone(obj[i]) : obj[i];
 	}
 	return newObj;
+}
+
+function contains(arr, obj) {
+    var i = arr.length;
+    while (i--) {
+        if (arr[i] === obj) {
+            return true;
+        }
+    }
+    return false;
 }
